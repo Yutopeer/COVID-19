@@ -1,8 +1,12 @@
 library(tidyverse)
 library(lubridate)
-time_series_confermed <- read_csv('csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv')
-time_series_deaths <- read_csv('csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv')
-time_series_recovered <- read_csv('csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv')
+#time_series_confermed <- read_csv('csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv')
+#time_series_deaths <- read_csv('csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv')
+#time_series_recovered <- read_csv('csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv')
+
+time_series_confermed <- read_csv('time_series_covid19_confirmed_global.csv')
+time_series_deaths <- read_csv('time_series_covid19_deaths_global.csv')
+time_series_recovered <- read_csv('time_series_covid19_recovered_global.csv')
 
 
 confirmed <- time_series_confermed %>% 
@@ -13,14 +17,14 @@ confirmed <- time_series_confermed %>%
 confirmed$日付 <- mdy(confirmed$日付)
 confirmed$日付 <- as.Date(confirmed$日付)
 
-confirmed <- confirmed %>% 
-  mutate(累計患者数 = case_when(日付=='2020-01-23'~ 2, 日付!='2020-02-06'~累計患者数)) %>% 
-  mutate(累計患者数 = case_when(日付=='2020-02-06'~ 25, 日付!='2020-02-06'~累計患者数))
+#confirmed <- confirmed %>% 
+#  mutate(累計患者数 = case_when(日付=='2020-01-23'~ 2, 日付!='2020-02-06'~累計患者数)) %>% 
+#  mutate(累計患者数 = case_when(日付=='2020-02-06'~ 25, 日付!='2020-02-06'~累計患者数))
 
 confirmed %>% 
   ggplot(aes(日付, 累計患者数))+
   ggtitle('新型コロナウイルス患者数の推移（日本）')+
-  scale_x_date(date_breaks = '5 days', date_labels = '%m/%d') +
+  scale_x_date(date_breaks = '10 days', date_labels = '%m/%d') +
   theme(axis.text.x = element_text(angle=30, hjust=1)) +
   geom_bar(stat = 'identity', fill='#fff494')+
   theme_dark(base_family = "HiraKakuPro-W3")
